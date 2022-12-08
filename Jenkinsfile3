@@ -1,0 +1,47 @@
+pipeline{
+    agent any
+    environment {
+      DOCKER_TAG = getVersion()
+    }
+	    stages{
+        stage("Git Checkout"){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pramodmadhavanvc1/jenkins-docker-example.git']]])
+            }
+        }
+        stage("Docker Build"){
+            steps{
+                sh "docker build . -t  pramodmadhavan/webapp:${DOCKER_TAG}"
+            }
+        }
+        stage("DockerHub Push"){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                    sh "docker login -u pramodmadhavan -p ${dockerHubPwd}"
+                    sh "docker push pramodmadhavan/webapp:${DOCKER_TAG} "
+                }
+                
+            }
+        }
+        
+        stage("Deploy on K8S"){
+            steps{
+                sshagent(['k8s-master']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@10.0.2.4"
+                    script{
+                        try{
+                           sh "ssh root@10.0.2.4 kubectl apply -f /home/origin/jenkins-docker-example/webapp.yaml" 
+                        }catch(error){
+                           sh "ssh root@10.0.2.4 kubectl create -f /home/origin/jenkins-docker-example/webapp.yaml"
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+def getVersion(){
+    def commitHash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+    return commitHash
+}
