@@ -1,2 +1,7 @@
 name: webapp
+<<<<<<< HEAD
 version: v10
+=======
+version: v8
+
+>>>>>>> 56c7e468b3b7c1c4334f4a2bb833600e6afb0577
