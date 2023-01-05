@@ -26,17 +26,15 @@ pipeline{
         
         stage("Deploy on K8S"){
             steps{
-                sshagent(['k8s-master']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@10.0.2.4"
+                
                     script{
                         try{
-                           sh "ssh root@10.0.2.4 kubectl apply -f /home/origin/jenkins-docker-example/webapp.yaml" 
+                           sh "kubectl apply -f /home/origin/jenkins/cnc-kubernetes-project/resource/webapp.yaml" 
                         }catch(error){
-                           sh "ssh root@10.0.2.4 kubectl create -f /home/origin/jenkins-docker-example/webapp.yaml"
+                           sh "kubectl create -f /home/origin/jenkins/cnc-kubernetes-project/resource/webapp.yaml"
                         }
-                    }
-                    
-                }
+                    }   
+                
             }
         }
     }
