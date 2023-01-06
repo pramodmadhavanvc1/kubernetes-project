@@ -28,10 +28,8 @@ pipeline{
             steps{
                 
                     script{
-                        try{
-                           sh "kubectl apply -f /home/origin/jenkins/cnc-kubernetes-project/resource/webapp.yaml" 
-                        }catch(error){
-                           sh "kubectl create -f /home/origin/jenkins/cnc-kubernetes-project/resource/webapp.yaml"
+                           sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
+                           sh "kubectl apply -f resources/webapp.yaml" 
                         }
                     }   
                 
