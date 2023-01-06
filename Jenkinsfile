@@ -27,11 +27,10 @@ pipeline{
         stage("Deploy on K8S"){
             steps{
                 
-                    script{
-                           sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
-                           sh "kubectl apply -f resources/webapp.yaml" 
-                        }
-                    }   
+                  sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
+                  sh "kubectl apply -f resources/webapp.yaml" 
+                        
+                 }   
                 
             }
         }
