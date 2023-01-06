@@ -1,41 +1,43 @@
 pipeline{
     agent any
-	tools {
-      maven 'M2_HOME'
+    environment {
+      DOCKER_TAG = getVersion()
     }
-    stages{
+	    stages{
         stage("Git Checkout"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pramodmadhavanvc1/jenkins-docker-example.git']]])
-            }
-        }
-        stage("Maven Package"){
-            steps{
-                sh "mvn clean package"
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pramodmadhavanvc1/kubernetes-project.git']]])
             }
         }
         stage("Docker Build"){
             steps{
-                sh "docker build . -t pramodmadhavan/nodejsapp-1.0:latest "
+                sh "docker build . -t  pramodmadhavan/webapp:${DOCKER_TAG}"
             }
         }
         stage("DockerHub Push"){
             steps{
                 withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
                     sh "docker login -u pramodmadhavan -p ${dockerHubPwd}"
-                    sh "docker push pramodmadhavan/nodejsapp-1.0:latest "
+                    sh "docker push pramodmadhavan/webapp:${version} "
                 }
                 
             }
         }
-        stage("Docker Deploy worker"){
+        
+        stage("Deploy on K8S"){
             steps{
-                sshagent(['worker-server']) {
-                    sh "ssh -o StrictHostKeyChecking=no origin@10.0.2.7 docker rm -f pramodapp"
-                    sh "ssh origin@10.0.2.7 docker run -d -p 31315:80 --name pramodapp pramodmadhavan/nodejsapp-1.0:latest"
-                }
+                
+                    script{
+                           sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
+                           sh "kubectl apply -f resources/webapp.yaml" 
+                        }
+                    }   
                 
             }
         }
     }
+}
+def getVersion(){
+    version = sh(returnStdout: true, script: "cat version |grep version |awk '{print \$2}'")
+    return version
 }
