@@ -28,7 +28,7 @@ pipeline{
             steps{
                 
                   
-                  sh "kubectl apply -f resources/webapp.yaml" 
+                  sh "kubectl apply -f resource/webapp.yaml" 
                         
                  }   
                 
