@@ -27,7 +27,7 @@ pipeline{
         stage("Deploy on K8S"){
             steps{
                 
-                  sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
+                  
                   sh "kubectl apply -f resources/webapp.yaml" 
                         
                  }   
