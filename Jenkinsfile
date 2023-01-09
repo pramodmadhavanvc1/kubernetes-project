@@ -28,7 +28,7 @@ pipeline{
             steps{ 
                 
                  
-                  sh "sed -i "s/{{theversion}}/${version}" resource/webapp.yaml"
+                  sh "sed -i 's/{{theversion}}/"${version}"' resource/webapp.yaml"
                                     
                   sh "kubectl apply -f resource/webapp.yaml" 
                         
