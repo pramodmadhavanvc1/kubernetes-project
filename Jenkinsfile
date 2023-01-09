@@ -29,7 +29,12 @@ pipeline{
                 
                   sh "echo ${version}"
                   sh "echo $version"
-                  sh 'echo $version;cat resource/webapp.yaml | sed "s+BUILD_NUMBER/$version+" | kubectl apply -f -'
+                  sh """#!/bin/bash 
+                     echo "$version"
+                     sed -i 's|BUILD_NUMBER|"${VERSION}"|' resource/webapp.yaml
+                     kubectl apply -f resource/webapp.yaml
+
+                     """
                                     
                                           
                  }   
