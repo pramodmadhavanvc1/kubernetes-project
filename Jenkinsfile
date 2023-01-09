@@ -28,6 +28,7 @@ pipeline{
             steps{ 
                 
                   sh "version=`cat version |grep version |awk '{print \$2}'`"
+                  sh 'sed -i "s/{{theversion}}/\$version/" resource/webapp.yaml'
                   
                   sh "kubectl apply -f resource/webapp.yaml" 
                         
