@@ -29,7 +29,7 @@ pipeline{
                 
                  sh 'echo "$version";echo "$DOCKER_TAG";echo "sed -i "s/BUILD_NUMBER/$DOCKER_TAG/" resource/webapp.yaml" > test; chmod 755 test; cat test; ./test'
 
-                 sh 'cat resource/webapp.yaml
+                 sh 'cat resource/webapp.yaml'
                                     
                                           
                  }   
