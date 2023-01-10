@@ -32,7 +32,7 @@ pipeline{
                       echo "sed -i 's|BUILD_NUMBER|$version|' resource/webapp.yaml" > test
                       chmod 755 test
                       cat test
-                      ./ test
+                      ./test
                       kubectl apply -f resource/webapp.yaml
                       """
                                     
