@@ -27,14 +27,9 @@ pipeline{
         stage("Deploy on K8S"){
             steps{ 
                 
-                  sh """#!/bin/bash
-                      echo "$version"
-                      echo "sed -i "s|BUILD_NUMBER|"$version"|" resource/webapp.yaml" > test
-                      chmod 755 test
-                      cat test
-                      ./test
-                      kubectl apply -f resource/webapp.yaml
-                      """
+                  sh 'echo "sed -i "s/BUILD_NUMBER/$version/" resource/webapp.yaml" > test; chmod 755 test; cat test; ./test'
+
+                  sh 'cat resource/webapp.yaml'
                                     
                                           
                  }   
