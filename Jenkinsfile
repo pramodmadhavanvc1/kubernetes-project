@@ -29,7 +29,7 @@ pipeline{
                 
                   sh """#!/bin/bash
                       echo "$version"
-                      echo "sed 's|BUILD_NUMBER|$version|' resource/webapp.yaml" > test
+                      echo "sed 's,BUILD_NUMBER,$version,' resource/webapp.yaml" > test
                       chmod 755 test
                       cat test
                       ./test
