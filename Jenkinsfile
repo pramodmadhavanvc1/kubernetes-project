@@ -27,7 +27,7 @@ pipeline{
         stage("Deploy on K8S"){
             steps{ 
                 
-                 sh 'echo "--------$DOCKER_TAG-------"'
+                 sh 'echo "--------$DOCKER_TAG------"'
                                     
                                           
                  }   
