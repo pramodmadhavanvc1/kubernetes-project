@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
    - name: webapp
-     image: pramodmadhavan/webapp:BUILD_NUMBER
+     image: pramodmadhavan/webapp:{{theversion}}
      ports:
       - containerPort: 80
 ---
