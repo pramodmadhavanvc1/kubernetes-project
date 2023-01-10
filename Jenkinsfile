@@ -27,7 +27,7 @@ pipeline{
         stage("Deploy on K8S"){
             steps{ 
                 
-                 sh 'echo "$version";echo "$DOCKER_TAG++";echo "sed -i "s/BUILD_NUMBER/$DOCKER_TAGss/g" resource/webapp.yaml" > test; chmod 755 test; cat test; ./test'
+                 sh 'echo "$version";echo ""$DOCKER_TAG"ssss";echo "sed -i "s/BUILD_NUMBER/'$DOCKER_TAG'ss/g" resource/webapp.yaml" > test; chmod 755 test; cat test; ./test'
 
 
 
