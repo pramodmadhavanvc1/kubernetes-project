@@ -28,7 +28,7 @@ pipeline{
             steps{ 
                 
                  sh "/var/lib/jenkins/test.sh"
-                                    
+                 sh "cat resource/webapp.yaml"                   
                                           
                  }   
                 
