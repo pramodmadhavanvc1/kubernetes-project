@@ -27,7 +27,7 @@ pipeline{
         stage("Deploy on K8S"){
             steps{ 
                 
-                 sh 'echo "--------$DOCKER_TAG------"'
+                 sh "/var/lib/jenkins/test.sh"
                                     
                                           
                  }   
