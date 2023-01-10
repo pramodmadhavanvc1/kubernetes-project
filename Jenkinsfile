@@ -35,7 +35,7 @@ pipeline{
 
                     chmod 755 test
 
-                    ./ test
+                    ./test
 
                     kubectl apply -f resource/webapp.yaml
 
