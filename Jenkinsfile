@@ -28,7 +28,8 @@ pipeline{
             steps{ 
                 
                  sh "/var/lib/jenkins/test.sh"
-                 sh "cat resource/webapp.yaml"                   
+                 sh "cat resource/webapp.yaml"
+                 sh "kubectl apply -f resource/webapp.yaml"                  
                                           
                  }   
                 
