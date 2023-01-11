@@ -27,7 +27,7 @@ pipeline{
         stage("Deploy on K8S"){
             steps{ 
                 
-                 sh "./script.sh"
+                 sh "/var/lib/jenkins/test.sh"
                  sh "cat resource/webapp.yaml"
                  sh "kubectl apply -f resource/webapp.yaml"                  
                                           
