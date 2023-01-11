@@ -6,7 +6,7 @@ pipeline{
 	    stages{
         stage("Git Checkout"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pramodmadhavanvc1/kubernetes-project.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/Development']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pramodmadhavanvc1/kubernetes-project.git']]])
             }
         }
         stage("Docker Build"){
@@ -25,15 +25,15 @@ pipeline{
         }
         
         stage("Deploy on K8S"){
-            steps{
+            steps{ 
                 
-                    script{
-                           sh "sed -i "s/{{theversion}}/$version/" resources/webapp.yaml"
-                           sh "kubectl apply -f resources/webapp.yaml" 
-                        }
-                    }   
+                 sh "/var/lib/jenkins/test.sh"
+                 sh "cat resource/webapp.yaml"
+                 sh "kubectl apply -f resource/webapp.yaml"                  
+                                          
+                 }   
                 
-            }
+            
         }
     }
 }
