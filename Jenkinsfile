@@ -26,8 +26,10 @@ pipeline{
         
         stage("Deploy on K8S"){
             steps{ 
-                
-                 sh "/var/lib/jenkins/test.sh"
+                        
+                 
+                 sh "chmod 755 scripts/updateyaml.sh"
+                 sh "scripts/updateyaml.sh"
                  sh "cat resource/webapp.yaml"
                  sh "kubectl apply -f resource/webapp.yaml"                  
                                           
